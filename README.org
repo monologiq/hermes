@@ -1,0 +1,7 @@
+* Systems
+
+`systems` contains the configuration of my differents Arch Linux and macOS systems.
+
+Remember: those configurations are taillored to my needs.
+
+This is still a work in progress.
