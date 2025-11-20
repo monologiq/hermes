@@ -1,0 +1,15 @@
+* hermes
+
+** Specifications
+
+| Category    | Component                                                 |
+|-------------+-----------------------------------------------------------|
+| CPU         | [[https://pangoly.com/en/product/intel-core-ultra-7-265k][Intel® Core Ultra 7 265K, 3,9 GHz (Arrow Lake)]]            |
+| GPU         | [[https://pangoly.com/en/product/asus-tuf-gaming-geforce-rtx-5070-ti][Asus TUF Gaming GeForce RTX 5070 Ti 16GB GDDR7 OC Edition]] |
+| Case        | [[https://pangoly.com/en/product/phanteks-xt-m3][PC Phanteks XT M3 (Black)]]                                 |
+| PSU         | [[https://pangoly.com/en/product/seasonic-focus-gx-1000-v4][Seasonic FOCUS GX-1000-V4 1000W]]                           |
+| Motherboard | [[https://pangoly.com/en/product/asus-rog-strix-b860-g-gaming-wifi][ASUS ROG STRIX B860-G GAMING WiFi]]                         |
+| RAM         | [[https://pangoly.com/en/product/kingston-fury-beast-rgb-32gb-ddr5-6400][Kingston FURY 6B Go DDR5-6400 Kit (CL32)]]                  |
+| CPU Cooler  | [[https://pangoly.com/en/product/be-quiet-silent-loop-3-360mm][be quiet! Silent Loop 3 360mm]]                             |
+| Case Fan    | [[https://pangoly.com/en/product/be-quiet-pure-wings-3-120mm-pwm][be quiet! Pure Wings 3 PWD 120mm (x6)]]                     |
+| SSD         | [[https://pangoly.com/en/product/western-digital-black-sn850x-1tb][Western Digital BLACK SN850X 1TB NVMe Gen4 PCIe M.]]        |
