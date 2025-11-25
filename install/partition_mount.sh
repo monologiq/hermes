@@ -62,13 +62,12 @@ fi
 # Set partition variables
 PART_XBOOTLDR="${DISK_SYSTEM}${PART_SUFFIX}1"
 PART_EFI="${DISK_SYSTEM}${PART_SUFFIX}2"
-PART_RECOVERY="${DISK_SYSTEM}${PART_SUFFIX}3"
-PART_ROOT="${DISK_SYSTEM}${PART_SUFFIX}4"
+PART_ROOT="${DISK_SYSTEM}${PART_SUFFIX}3"
 
 if [ "$SAME_DISK" = false ]; then
     PART_HOME="${DISK_HOME}${HOME_PART_SUFFIX}1"
 else
-    PART_HOME="${DISK_SYSTEM}${PART_SUFFIX}4"
+    PART_HOME="${DISK_SYSTEM}${PART_SUFFIX}3"
 fi
 
 # Set mount target
@@ -84,7 +83,7 @@ BTRFS_OPTS="compress=zstd,noatime"
 
 # Mount root filesystem
 echo "Mounting root filesystem..."
-mount --mkdir -o subvol=@system-1,$BTRFS_OPTS "$PART_ROOT" "$MOUNT_TARGET"
+mount --mkdir -o subvol=@system,$BTRFS_OPTS "$PART_ROOT" "$MOUNT_TARGET"
 
 mount --mkdir -o fmask=0137,dmask=0027 "$PART_EFI" "$MOUNT_TARGET/efi"
 mount --mkdir -o fmask=0137,dmask=0027 "$PART_XBOOTLDR" "$MOUNT_TARGET/boot"

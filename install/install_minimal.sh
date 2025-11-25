@@ -101,7 +101,7 @@ mkdir -p /etc/cmdline.d
 
 ROOT_UUID=\$(blkid -s UUID -o value /dev/disk/by-label/ROOT)
 cat > /etc/cmdline.d/system.conf <<CMD
-root=UUID=\$ROOT_UUID rw rootflags=subvol=@system-1
+root=UUID=\$ROOT_UUID rw rootflags=subvol=@system
 CMD
 
 cat > /etc/cmdline.d/security.conf <<CMDSEC

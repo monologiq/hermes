@@ -55,18 +55,16 @@ if [ "$SAME_DISK" = true ]; then
     echo "Single disk configuration: $DISK_SYSTEM"
     echo ""
     echo "  Partition 1: 1GB    XBOOTLDR (vfat)  -> /boot"
-    echo "  Partition 2: 1GB    EFI (vfat)       -> /efi"
-    echo "  Partition 3: 8GB    RECOVERY         -> (unformatted)"
-    echo "  Partition 4: 100%   ROOT (btrfs)     -> / (with @system-1 subvolume)"
-    echo "  Partition 5: 100%   HOME (btrfs)     -> /home (with @home subvolume)"
+    echo "  Partition 2: 4GB    EFI (vfat)       -> /efi"
+    echo "  Partition 3: 100%   ROOT (btrfs)     -> / (with @system subvolume)"
+    echo "  Partition 4: 100%   HOME (btrfs)     -> /home (with @home subvolume)"
 else
     echo "Dual disk configuration:"
     echo ""
     echo "  $DISK_SYSTEM (System):"
     echo "    Partition 1: 1GB    XBOOTLDR (vfat)  -> /boot"
-    echo "    Partition 2: 1GB    EFI (vfat)       -> /efi"
-    echo "    Partition 3: 8GB    RECOVERY         -> (unformatted)"
-    echo "    Partition 4: 100%   ROOT (btrfs)     -> /"
+    echo "    Partition 2: 4GB    EFI (vfat)       -> /efi"
+    echo "    Partition 3: 100%   ROOT (btrfs)     -> /"
     echo ""
     echo "  $DISK_HOME (Home):"
     echo "    Partition 1: 100%   HOME (btrfs)     -> /home"
@@ -98,18 +96,14 @@ parted -s "$DISK_SYSTEM" mkpart primary fat32 1MiB 1025MiB
 parted -s "$DISK_SYSTEM" set 1 boot on
 parted -s "$DISK_SYSTEM" name 1 'XBOOTLDR'
 
-# Partition 2: 1GB EFI System /efi (vfat)
-parted -s "$DISK_SYSTEM" mkpart primary fat32 1025MiB 2049MiB
+# Partition 2: 4GB EFI System /efi (vfat)
+parted -s "$DISK_SYSTEM" mkpart primary fat32 1025MiB 5121MiB
 parted -s "$DISK_SYSTEM" set 2 esp on
 parted -s "$DISK_SYSTEM" name 2 'EFI'
 
-# Partition 3: 8GB Recovery
-parted -s "$DISK_SYSTEM" mkpart primary 2049MiB 10241MiB
-parted -s "$DISK_SYSTEM" name 3 'RECOVERY'
-
-# Partition 4: Remaining space for / (btrfs)
-parted -s "$DISK_SYSTEM" mkpart primary btrfs 10241MiB 100%
-parted -s "$DISK_SYSTEM" name 4 'ROOT'
+# Partition 3: Remaining space for / (btrfs)
+parted -s "$DISK_SYSTEM" mkpart primary btrfs 5121MiB 100%
+parted -s "$DISK_SYSTEM" name 3 'ROOT'
 
 echo "Partition table for $DISK_SYSTEM:"
 parted "$DISK_SYSTEM" print
@@ -140,7 +134,7 @@ fi
 
 mkfs.vfat -F32 -n XBOOTLDR "${DISK_SYSTEM}${PART_SUFFIX}1"
 mkfs.vfat -F32 -n EFI "${DISK_SYSTEM}${PART_SUFFIX}2"
-mkfs.btrfs -f -L ROOT "${DISK_SYSTEM}${PART_SUFFIX}4"
+mkfs.btrfs -f -L ROOT "${DISK_SYSTEM}${PART_SUFFIX}3"
 
 if [ "$SAME_DISK" = false ]; then
     if [[ "$DISK_HOME" == *"nvme"* ]]; then
@@ -155,10 +149,10 @@ echo ""
 echo "Creating btrfs subvolumes..."
 
 MOUNT_POINT=$(mktemp -d)
-mount "${DISK_SYSTEM}${PART_SUFFIX}4" "$MOUNT_POINT"
+mount "${DISK_SYSTEM}${PART_SUFFIX}3" "$MOUNT_POINT"
 
 btrfs subvolume create "$MOUNT_POINT/@snapshots"
-btrfs subvolume create "$MOUNT_POINT/@system-1"
+btrfs subvolume create "$MOUNT_POINT/@system"
 btrfs subvolume create "$MOUNT_POINT/@var-cache"
 btrfs subvolume create "$MOUNT_POINT/@var-docker"
 btrfs subvolume create "$MOUNT_POINT/@var-log"
@@ -171,7 +165,7 @@ umount "$MOUNT_POINT"
 if [ "$SAME_DISK" = false ]; then
     mount "${DISK_HOME}${HOME_PART_SUFFIX}1" "$MOUNT_POINT"
 else
-    mount "${DISK_SYSTEM}${PART_SUFFIX}4" "$MOUNT_POINT"
+    mount "${DISK_SYSTEM}${PART_SUFFIX}3" "$MOUNT_POINT"
 fi
 
 btrfs subvolume create "$MOUNT_POINT/@home"
