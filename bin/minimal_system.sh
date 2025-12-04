@@ -87,7 +87,8 @@ pacman -S --noconfirm \
     bluez \
     bluez-utils \
     ddcutil \
-    iwd
+    iwd \
+    openrgb
 
 systemctl enable \
   iwd \
