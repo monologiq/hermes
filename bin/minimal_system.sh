@@ -49,7 +49,10 @@ pacman -Sy --noconfirm --needed \
     fwupd \
     openssh \
     acpid \
-    avahi
+    avahi \
+    ocaml \
+    opam \
+    dune
 
 systemctl enable \
   acpid \
