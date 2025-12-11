@@ -90,6 +90,7 @@ mount /dev/mapper/$ROOT_NAME ${MOUNT_TARGET}
 btrfs subvolume create ${MOUNT_TARGET}/@root
 btrfs subvolume create ${MOUNT_TARGET}/@snapshots
 btrfs subvolume create ${MOUNT_TARGET}/@home
+btrfs subvolume create ${MOUNT_TARGET}/@nix
 btrfs subvolume create ${MOUNT_TARGET}/@var_cache
 btrfs subvolume create ${MOUNT_TARGET}/@var_log
 btrfs subvolume create ${MOUNT_TARGET}/@var_spool

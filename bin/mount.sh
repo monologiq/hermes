@@ -61,11 +61,14 @@ mount --mkdir -o fmask=0137,dmask=0027 "${DISK}2" ${MOUNT_TARGET}/efi
 # Mount other subvolumes
 mount --mkdir -o subvol=@snapshots,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/.snapshots
 mount --mkdir -o subvol=@home,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/home
+mount --mkdir -o subvol=@nix,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/nix
 mount --mkdir -o subvol=@var_cache,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/var/cache
 mount --mkdir -o subvol=@var_log,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/var/log
 mount --mkdir -o subvol=@var_spool,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/var/spool
 mount --mkdir -o subvol=@var_tmp,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/var/tmp
 mount --mkdir -o subvol=@var_lib_machines,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/var/lib/machines
 mount --mkdir -o subvol=@var_lib_portables,$BTRFS_OPTS /dev/mapper/cryptroot ${MOUNT_TARGET}/var/lib/portables
+
+chattr +C ${MOUNT_TARGET}/nix
 
 findmnt ${MOUNT_TARGET}
